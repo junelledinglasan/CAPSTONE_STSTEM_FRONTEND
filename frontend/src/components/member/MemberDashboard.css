@@ -41,6 +41,18 @@
   letter-spacing: 0.3px; white-space: nowrap;
 }
 
+/* ── Pending badge ── */
+.md-pending-badge {
+  background: #fff3e0;
+  color: #e65100;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
 /* ── KPI Grid ── */
 .md-kpi-grid {
   display: grid;
@@ -175,6 +187,113 @@
   margin-top: 5px; flex-shrink: 0;
 }
 
+/* ── Non-official card ────────────────────────────────────────────── */
+.md-unofficial-card {
+  background: #fff;
+  border: 1px solid #ffe082;
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.md-unofficial-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.md-unofficial-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.md-unofficial-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e65100;
+  margin-bottom: 4px;
+}
+.md-unofficial-sub {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ── Access grid ──────────────────────────────────────────────────── */
+.md-access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.md-access-col {
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.locked-col { background: #fff5f5; border: 1px solid #ffcdd2; }
+.open-col   { background: #f1f8e9; border: 1px solid #c8e6c9; }
+.md-access-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+.locked-col .md-access-col-title { color: #c62828; }
+.open-col   .md-access-col-title { color: #2e7d32; }
+.md-access-item        { font-size: 13px; padding: 4px 0; }
+.md-access-item.locked { color: #c62828; }
+.md-access-item.open   { color: #2e7d32; }
+
+/* ── Profile notice ───────────────────────────────────────────────── */
+.md-profile-notice {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #5d4037;
+  line-height: 1.5;
+}
+
+/* ── CTA buttons ──────────────────────────────────────────────────── */
+.md-unofficial-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.md-cta-primary {
+  flex: 1;
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.md-cta-primary:hover { background: #1b5e20; }
+.md-cta-secondary {
+  flex: 1;
+  background: #fff;
+  color: #2e7d32;
+  border: 1.5px solid #2e7d32;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.md-cta-secondary:hover { background: #f1f8e9; }
+
 /* ── Responsive ── */
 @media (max-width: 1200px) {
   .md-kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -189,4 +308,6 @@
   .md-kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .md-banner { flex-direction: column; align-items: flex-start; }
   .md-banner-chip { width: 100%; box-sizing: border-box; }
+  .md-access-grid { grid-template-columns: 1fr; }
+  .md-unofficial-actions { flex-direction: column; }
 }

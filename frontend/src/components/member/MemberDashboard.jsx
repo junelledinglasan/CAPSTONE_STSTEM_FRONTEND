@@ -48,12 +48,94 @@ const NOTIFS = [
   { id: 3, type: "system", msg: "Your loan LN-2026-004 has been approved.",         time: "1 week ago",  read: true  },
 ];
 
+// ─── Non-Official Welcome Screen ───────────────────────────────────────────
+function NonOfficialWelcome({ member, navigate }) {
+  const firstname = member.name.split(" ")[0];
+  return (
+    <div className="md-wrapper">
+      {/* Welcome banner */}
+      <div className="md-banner">
+        <div>
+          <div className="md-banner-greeting">Welcome, {firstname}! 👋</div>
+          <div className="md-banner-sub">You're almost there. Complete your membership to unlock all features.</div>
+        </div>
+        <div className="md-banner-chip">
+          <div className="md-banner-avatar">{member.initials}</div>
+          <div>
+            <div className="md-banner-name">{member.name}</div>
+            <div className="md-banner-id">Pending Membership</div>
+          </div>
+          <span className="md-pending-badge">Pending</span>
+        </div>
+      </div>
+
+      {/* Status card */}
+      <div className="md-unofficial-card">
+        <div className="md-unofficial-header">
+          <div className="md-unofficial-icon">⏳</div>
+          <div>
+            <div className="md-unofficial-title">Account Not Yet Official</div>
+            <div className="md-unofficial-sub">
+              Your account is created but you are not yet an official LEAF MPC member.
+              Some features are currently locked.
+            </div>
+          </div>
+        </div>
+
+        {/* What you can and cannot access */}
+        <div className="md-access-grid">
+          <div className="md-access-col locked-col">
+            <div className="md-access-col-title">🔒 Locked Features</div>
+            <div className="md-access-item locked">Dashboard overview</div>
+            <div className="md-access-item locked">My Loans & payments</div>
+            <div className="md-access-item locked">Apply for Loan</div>
+          </div>
+          <div className="md-access-col open-col">
+            <div className="md-access-col-title">✅ Available Now</div>
+            <div className="md-access-item open">Notifications</div>
+            <div className="md-access-item open">Announcements</div>
+            <div className="md-access-item open">My Profile</div>
+          </div>
+        </div>
+
+        {/* Profile notice */}
+        <div className="md-profile-notice">
+          💡 Please complete your profile information first before applying for official membership.
+        </div>
+
+        {/* CTA buttons */}
+        <div className="md-unofficial-actions">
+          <button
+            className="md-cta-primary"
+            onClick={() => navigate("/member/apply-membership")}
+          >
+            Apply for Official Membership
+          </button>
+          <button
+            className="md-cta-secondary"
+            onClick={() => navigate("/member/profile")}
+          >
+            Complete My Profile
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Dashboard ────────────────────────────────────────────────────────
 export default function MemberDashboard() {
-  const ctx    = useOutletContext() || {};
-  const member = ctx.member || { name: "Maria Santos", memberId: "LEAF-100-05", initials: "MS" };
+  const ctx      = useOutletContext() || {};
+  const member   = ctx.member || { name: "Maria Santos", memberId: "LEAF-100-05", initials: "MS", isOfficial: true };
   const navigate = useNavigate();
 
-  const paidPct = Math.round((STATS.totalPaid / STATS.totalLoan) * 100);
+  // ── Non-official members see the simplified welcome screen ──
+  if (!member.isOfficial) {
+    return <NonOfficialWelcome member={member} navigate={navigate} />;
+  }
+
+  // ── Official members see the full dashboard ──
+  const paidPct   = Math.round((STATS.totalPaid / STATS.totalLoan) * 100);
   const firstname = member.name.split(" ")[0];
 
   const lineData = {
@@ -150,8 +232,6 @@ export default function MemberDashboard() {
 
       {/* ── Middle row: Progress + Doughnut ── */}
       <div className="md-mid-row">
-
-        {/* Loan progress */}
         <div className="md-card md-progress-card">
           <div className="md-card-title">Loan Repayment Progress</div>
           <div className="md-card-sub">{STATS.loanType} — {STATS.loanId}</div>
@@ -185,7 +265,6 @@ export default function MemberDashboard() {
           </div>
         </div>
 
-        {/* Doughnut */}
         <div className="md-card">
           <div className="md-card-title">Loan Breakdown</div>
           <div className="md-card-sub">Paid vs Remaining</div>
@@ -195,10 +274,8 @@ export default function MemberDashboard() {
         </div>
       </div>
 
-      {/* ── Bottom row: Payment chart + Transactions + Notifications ── */}
+      {/* ── Bottom row ── */}
       <div className="md-bot-row">
-
-        {/* Payment trend */}
         <div className="md-card">
           <div className="md-card-title">Payment History</div>
           <div className="md-card-sub">Last 6 months</div>
@@ -207,7 +284,6 @@ export default function MemberDashboard() {
           </div>
         </div>
 
-        {/* Recent transactions */}
         <div className="md-card">
           <div className="md-card-header-row">
             <div>
@@ -232,7 +308,6 @@ export default function MemberDashboard() {
           </div>
         </div>
 
-        {/* Notifications preview */}
         <div className="md-card">
           <div className="md-card-header-row">
             <div>
@@ -256,7 +331,6 @@ export default function MemberDashboard() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

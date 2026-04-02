@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import "./OnlineApplications.css";
 
 // ─── Mock Data ───────────────────────────────────────────────────────────────
@@ -213,7 +214,9 @@ function ViewModal({ app, onClose, onApprove, onReject }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function OnlineApplications() {
-  const [apps, setApps]           = useState(INITIAL_APPLICATIONS);
+  const { getApplications, updateApplicationStatus } = useAuth();
+  // Pull from shared AuthContext so member-submitted applications appear here
+  const [apps, setApps]           = useState(() => getApplications());
   const [search, setSearch]       = useState("");
   const [filterStatus, setFilter] = useState("All");
   const [currentPage, setPage]    = useState(1);
@@ -252,6 +255,7 @@ export default function OnlineApplications() {
   const handleApprove = (id) => {
     const app = apps.find(a => a.id === id);
     setApps(prev => prev.map(a => a.id === id ? { ...a, status: "Approved" } : a));
+    updateApplicationStatus(id, "Approved");
     // Push to global pending store so ManageMember can pick it up
     if (app && typeof window !== "undefined") {
       if (!window.__leafPending) window.__leafPending = [];
@@ -279,6 +283,7 @@ export default function OnlineApplications() {
 
   const handleReject = (id, reason) => {
     setApps(prev => prev.map(a => a.id === id ? { ...a, status: "Rejected" } : a));
+    updateApplicationStatus(id, "Rejected");
     setViewApp(null);
     showToast(`Application rejected. Applicant has been notified.`, "danger");
   };

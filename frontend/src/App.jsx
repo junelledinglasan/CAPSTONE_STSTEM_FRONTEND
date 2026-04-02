@@ -7,7 +7,8 @@ import AdminLayout         from "./layouts/AdminLayout";
 import StaffLayout         from "./layouts/StaffLayout";
 import MemberLayout        from "./layouts/MemberLayout";
 
-// Auth pages
+// Public pages
+import LandingPage         from "./pages/LandingPage";
 import AdminLogin          from "./pages/AdminLogin";
 import MemberLogin         from "./pages/MemberLogin";
 import MemberRegister      from "./pages/MemberRegister";
@@ -32,6 +33,7 @@ import Notifications       from "./components/member/Notifications";
 import MemberAnnouncements from "./components/member/MemberAnnouncements";
 import LoanApplication     from "./components/member/LoanApplication";
 import MemberProfile       from "./components/member/MemberProfile";
+import ApplyMembership     from "./components/member/ApplyMembership";
 
 export default function App() {
   return (
@@ -39,10 +41,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
 
-          {/* Default */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
-
-          {/* Auth pages */}
+          {/* ── Public Pages ── */}
+          <Route path="/"            element={<LandingPage />}    />
           <Route path="/login"       element={<MemberLogin />}    />
           <Route path="/admin-login" element={<AdminLogin />}     />
           <Route path="/register"    element={<MemberRegister />} />
@@ -95,16 +95,17 @@ export default function App() {
             }
           >
             <Route index element={<Navigate to="dashboard" replace />} />
-            <Route path="dashboard"     element={<MemberDashboard />} />
-            <Route path="my-loans"      element={<MyLoans />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="announcements" element={<MemberAnnouncements />} />
-            <Route path="apply"         element={<LoanApplication />} />
-            <Route path="profile"       element={<MemberProfile />} />
+            <Route path="dashboard"        element={<MemberDashboard />} />
+            <Route path="my-loans"         element={<MyLoans />} />
+            <Route path="notifications"    element={<Notifications />} />
+            <Route path="announcements"    element={<MemberAnnouncements />} />
+            <Route path="apply"            element={<LoanApplication />} />
+            <Route path="profile"          element={<MemberProfile />} />
+            <Route path="apply-membership" element={<ApplyMembership />} />
           </Route>
 
-          {/* Catch all */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Catch all → Landing Page */}
+          <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>
       </BrowserRouter>
